@@ -1,8 +1,8 @@
 '''
 
 '''
-import pprint
 import wargaming
+import TankData
 
 
 class DailyStats(object):
@@ -23,5 +23,6 @@ class DailyStats(object):
         self._wot = wargaming.WoT(args.appid, region='na', language='en')
         player = self.wot.account.list(search=args.player)
         self._account_id = player[0]['account_id']
-        result = self.wot.account.tanks(account_id=self.account_id)
-        pprint.pprint(result[self.account_id])
+        account_vehicles = self.wot.account.tanks(account_id=self.account_id, fields="tank_id")
+        account_tank_ids = [x['tank_id'] for x in account_vehicles[self.account_id]]
+        TankData.TankData(self.wot, account_tank_ids)
