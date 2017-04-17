@@ -1,14 +1,10 @@
-'''Module for main() invocation and command line parsing.
+'''Command line module for main() invocation and command line argument parsing.
 '''
 import sys
 import argparse
 import logging
 import DailyStats
-
-
-SUCCESS = 0
-FAILURE = 1
-APPID = 'demo'
+from constants import DEFAULT_APPID
 
 
 def parseargs():
@@ -23,7 +19,7 @@ def parseargs():
         help='player name')
     parser.add_argument(
         '--appid',
-        default=APPID,
+        default=DEFAULT_APPID,
         help='Wargaming.net application id (default: %(default)s)')
     args = parser.parse_args()
     return args
@@ -38,7 +34,7 @@ def main():
     logging.basicConfig(stream=sys.stdout, format='%(asctime)s %(message)s', level=logging.INFO)
     args = parseargs()
     ds = DailyStats.DailyStats(args)
-    return SUCCESS
+    return ds.vehicles.status
 
 
 if __name__ == '__main__':
